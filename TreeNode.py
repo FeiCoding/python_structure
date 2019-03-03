@@ -4,7 +4,7 @@
 # In[4]:
 
 #visualize the tree stuctures
-class Node(object):
+class TreeNode(object):
     def __init__(self, value):
         self.value = value
         self.left = None
@@ -21,7 +21,7 @@ class Node(object):
             if self.left:
                 return self.left.insert(value)
             else:
-                self.left = Node(value)
+                self.left = TreeNode(value)
                 return True
 
         else:
@@ -29,7 +29,7 @@ class Node(object):
             if self.right:
                 return self.right.insert(value)
             else:
-                self.right = Node(value)
+                self.right = TreeNode(value)
                 return True
     
     def search(self, value):
@@ -100,7 +100,7 @@ class Tree(object):
         if self.root:
             return self.root.insert(value)
         else:
-            self.root = Node(value)
+            self.root = TreeNode(value)
             return self
         
     def delete(self, value):

@@ -1,7 +1,8 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[1]:
+
 
 #visualize the tree stuctures
 class TreeNode(object):
@@ -34,7 +35,7 @@ class TreeNode(object):
     
     def search(self, value):
         if self is None or self.value == value:
-            return root
+            return self
         elif self.value < value:
             return self.right.search(value)
         elif self.value > value:
@@ -66,7 +67,7 @@ class TreeNode(object):
         if value < self.value:
             self.left = self.left.delete(value)
         
-        elif value > root.value:
+        elif value > self.value:
             self.right = self.right.delete(value)
         
         else:     
@@ -90,7 +91,8 @@ class TreeNode(object):
     
 
 
-# In[5]:
+# In[2]:
+
 
 class Tree(object):
     def __init__(self):

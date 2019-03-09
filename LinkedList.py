@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[6]:
+# In[2]:
 
 class LinkedNode:
     def __init__(self,data,nextNode=None):
@@ -40,4 +40,17 @@ class LinkedList:
         while curr:
             print(curr.data)
             curr = curr.getNextNode()
+    
+    def search(self, data):
+        curr = self.head
+        while curr:
+            if data == curr.data:
+                return curr
+            curr = curr.getNextNode()
+        return None
+
+
+# In[ ]:
+
+
 

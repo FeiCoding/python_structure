@@ -8,7 +8,7 @@ from IPython.display import HTML, display
 import tabulate
 
 
-# In[10]:
+# In[1]:
 
 class Plotter:
     def __init__(self):
@@ -24,7 +24,7 @@ class Plotter:
         ax.set_xticks(range(len(name)))
         ax.set_xticklabels(name)
         ax.set_xlabel('Data Structure Name', weight='semibold')
-        ax.set_ylabel('Time', weight='semibold')
+        ax.set_ylabel('Time (Millisecond)', weight='semibold')
         ax.set_title(operation_name + " of Different Data Structure", fontsize=15)
         for a,b in zip(index, time):
             plt.text(a - 0.3, b + 0.0003, str(b))

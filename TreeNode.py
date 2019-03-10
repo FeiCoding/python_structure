@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
 # In[1]:
-
 
 #visualize the tree stuctures
 class TreeNode(object):
@@ -47,14 +46,13 @@ class TreeNode(object):
             inorder(self.left)
             print(self.value)
             inorder(self.right)
-    
+            
     #define get minimum value method
     def getMinNode(self, root):
         current = root
         while current.left is not None:
             current = root.left
         return current
-    
     
     #define delete method
     #Given a tree and value to delete
@@ -91,8 +89,7 @@ class TreeNode(object):
     
 
 
-# In[2]:
-
+# In[11]:
 
 class Tree(object):
     def __init__(self):

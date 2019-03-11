@@ -1,120 +1,151 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[77]:
 
-#visualize the tree stuctures
-class TreeNode(object):
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-        
-    #define insert method
-    def insert(self, value):
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.leftChild = None
+        self.rightChild = None
+
+    def insert(self, data):
         ''' For inserting the data in the Tree '''
-        if self.value == value:
+        if self.data == data:
             return False        # As BST cannot contain duplicate data
 
-        elif value < self.value:
+        elif data < self.data:
             ''' Data less than the root data is placed to the left of the root '''
-            if self.left:
-                return self.left.insert(value)
+            if self.leftChild:
+                return self.leftChild.insert(data)
             else:
-                self.left = TreeNode(value)
+                self.leftChild = Node(data)
                 return True
 
         else:
             ''' Data greater than the root data is placed to the right of the root '''
-            if self.right:
-                return self.right.insert(value)
+            if self.rightChild:
+                return self.rightChild.insert(data)
             else:
-                self.right = TreeNode(value)
+                self.rightChild = Node(data)
                 return True
-    
-    def search(self, value):
-        if self is None or self.value == value:
-            return self
-        elif self.value < value:
-            return self.right.search(value)
-        elif self.value > value:
-            return self.left.search(value)
-        
-    #define printing Tree in inorder 
-    def inorder(self):
-        if self is not None:
-            inorder(self.left)
-            print(self.value)
-            inorder(self.right)
-            
-    #define get minimum value method
-    def getMinNode(self, root):
-        current = root
-        while current.left is not None:
-            current = root.left
+
+    def minValueNode(self, node):
+        current = node
+
+        # loop down to find the leftmost leaf
+        while(current.leftChild is not None):
+            current = current.leftChild
+
         return current
-    
-    #define delete method
-    #Given a tree and value to delete
-    #delete the node with the value and return root
-    def delete(self, value):
-        #Recurisive Deleting Base
+
+    def delete(self, data):
+        ''' For deleting the node '''
         if self is None:
-            return self
-        
-        if value < self.value:
-            self.left = self.left.delete(value)
-        
-        elif value > self.value:
-            self.right = self.right.delete(value)
-        
-        else:     
-            if self.left is None:
-                temp = self.right
+            return None
+
+        # if current node's data is less than that of root node, then only search in left subtree else right subtree
+        if data < self.data:
+            self.leftChild = self.leftChild.delete(data)
+        elif data > self.data:
+            self.rightChild = self.rightChild.delete(data)
+        else:
+            # deleting node with one child
+            if self.leftChild is None:
+                temp = self.rightChild
                 self = None
                 return temp
-            elif self.right is None:
-                temp = self.left
+            elif self.rightChild is None:
+                temp = self.leftChild
                 self = None
                 return temp
-            
-            #if root have two child nodes
-            #make the smallest value node of right sub-tree
-            #as the root and delete the smallest value node
-            temp = getMinNode(self.right)
-            self.value = temp.value
-            self.right = delete(self.right, temp.value)
-        
+
+            # deleting node with two children
+            # first get the inorder successor
+            temp = self.minValueNode(self.rightChild)
+            self.data = temp.data
+            self.rightChild = self.rightChild.delete(temp.data)
+
         return self
-    
 
+    def find(self, data):
+        ''' This function checks whether the specified data is in tree or not '''
+        if(data == self.data):
+            return True
+        elif(data < self.data):
+            if self.leftChild:
+                return self.leftChild.find(data)
+            else:
+                return False
+        else:
+            if self.rightChild:
+                return self.rightChild.find(data)
+            else:
+                return False
 
-# In[11]:
+    def preorder(self):
+        '''For preorder traversal of the BST '''
+        if self:
+            print(str(self.data), end = ' ')
+            if self.leftChild:
+                self.leftChild.preorder()
+            if self.rightChild:
+                self.rightChild.preorder()
+
+    def inorder(self):
+        ''' For Inorder traversal of the BST '''
+        if self:
+            if self.leftChild:
+                self.leftChild.inorder()
+            print(str(self.data), end = ' ')
+            if self.rightChild:
+                self.rightChild.inorder()
+
+    def postorder(self):
+        ''' For postorder traversal of the BST '''
+        if self:
+            if self.leftChild:
+                self.leftChild.postorder()
+            if self.rightChild:
+                self.rightChild.postorder()
+            print(str(self.data), end = ' ')
 
 class Tree(object):
     def __init__(self):
         self.root = None
-    
-    def insert(self, value):
+
+    def insert(self, data):
         if self.root:
-            return self.root.insert(value)
+            return self.root.insert(data)
         else:
-            self.root = TreeNode(value)
-            return self
-        
-    def delete(self, value):
+            self.root = Node(data)
+            return True
+
+    def delete(self, data):
         if self.root is not None:
-            return self.root.delete(value)
-    
-    def search(self, value):
+            return self.root.delete(data)
+
+    def search(self, data):
         if self.root:
-            return self.root.search(value)
+            return self.root.find(data)
         else:
-            return self
-    
+            return False
+
+    def preorder(self):
+        if self.root is not None:
+            print()
+            print('Preorder: ')
+            self.root.preorder()
+
     def inorder(self):
-        if self.root:
-            self.root.inorder(self)
-        else:
-            print(None)
+        print()
+        if self.root is not None:
+            print('Inorder: ')
+            self.root.inorder()
+
+    def postorder(self):
+        print()
+        if self.root is not None:
+            print('Postorder: ')
+            self.root.postorder()
 

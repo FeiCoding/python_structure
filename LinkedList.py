@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[24]:
 
 class LinkedNode:
     def __init__(self,data,nextNode=None):
@@ -48,9 +48,18 @@ class LinkedList:
                 return curr
             curr = curr.getNextNode()
         return None
-
-
-# In[ ]:
-
-
+    
+    def remove(self, data):
+        if self.head == None:
+            return
+        if self.head.data == data:
+            self.head = self.head.getNextNode()
+            return
+        curr = self.head
+        next_ = curr.getNextNode()
+        while next_:
+            if data == next_.data:
+                curr.setNextNode(next_.nextNode)
+            curr = curr.getNextNode()
+            next_ = next_.getNextNode()
 

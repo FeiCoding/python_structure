@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
-# In[130]:
+# In[1]:
 
 
 from TreeNode import Tree
@@ -12,9 +12,10 @@ from LinkedList import LinkedNode
 from LinkedList import LinkedList
 from Plotter import Plotter
 import timeit
+from sortedcontainers import SortedList
 
 
-# In[131]:
+# In[15]:
 
 
 class Runner:
@@ -23,12 +24,13 @@ class Runner:
         self.DATA_SIZE = DATA_SIZE
         self.DATA_RANGE = DATA_RANGE
         self.data =  random.sample(range(0, DATA_RANGE), DATA_SIZE)
+        print(len(self.data))
         self.data_list = []
         self.data_tree = Tree()
         self.data_set = set()
         self.data_dict = {}
         self.data_linked_list = LinkedList()
-        
+        self.data_sort_list = SortedList()
         
     def list_search(self, data_list, target):
         for i in range(len(data_list)):
@@ -92,33 +94,42 @@ class Runner:
                 temp_data_structure.remove(num)
             else:
                 print("Unknow Operation Name: " + operation)
-                
+        
+        elif(name == "sort_list"):
+            if(operation == "format"):
+                data_structure.add(num)
+            elif(operation == "search"):
+                data_structure.index(num)
+            elif(operation == "delete"):
+                temp_data_structure = data_structure
+                temp_data_structure.remove(num)
+            else:
+                print("Unknow Operation Name: " + operation)
         else:
             print ("Wrong Structure Name Parsed:  " + name)
             
             
             
-    def formmer(self, name, FORM_LOOP_TIME, data_structure):
-        count_time = 0
-        for count in range(FORM_LOOP_TIME):
-            start_time = timeit.default_timer()
-            for num in self.data:
-                self.runner_controller(data_structure, name, num, "format")
-            count_time += timeit.default_timer() - start_time
-        form_time = round(count_time / FORM_LOOP_TIME, 4)
+    def formmer(self, name, data_structure):
+        form_time = 0
+        start_time = timeit.default_timer()
+        for num in self.data:
+            self.runner_controller(data_structure, name, num, "format")
+        form_time = timeit.default_timer() - start_time
+        form_time = round(form_time * 1000, 4)
         return data_structure, form_time
         
         
         
         
     def formate_data(self, FORM_LOOP_TIME):
-        self.data_list, list_form_time = self.formmer("list", FORM_LOOP_TIME, self.data_list)
-        self.data_tree, tree_form_time = self.formmer("tree", FORM_LOOP_TIME, self.data_tree)
-        self.data_set, set_form_time = self.formmer("set", FORM_LOOP_TIME, self.data_set)
-        self.data_dict, dict_form_time = self.formmer("dictionary", FORM_LOOP_TIME, self.data_dict)
-        self.data_linked_list, linked_list_form_time = self.formmer("linked_list", FORM_LOOP_TIME, self.data_linked_list)
-        
-        return self.data_list, list_form_time, self.data_tree, tree_form_time, self.data_set, set_form_time, self.data_dict, dict_form_time, self.data_linked_list, linked_list_form_time
+        self.data_list, list_form_time = self.formmer("list", self.data_list)
+        self.data_tree, tree_form_time = self.formmer("tree", self.data_tree)
+        self.data_set, set_form_time = self.formmer("set", self.data_set)
+        self.data_dict, dict_form_time = self.formmer("dictionary", self.data_dict)
+        self.data_linked_list, linked_list_form_time = self.formmer("linked_list", self.data_linked_list)
+        self.data_sort_list, sort_list_form_time = self.formmer("sort_list", self.data_sort_list)
+        return self.data_list, list_form_time, self.data_tree, tree_form_time, self.data_set, set_form_time, self.data_dict, dict_form_time, self.data_linked_list, linked_list_form_time, self.data_sort_list, sort_list_form_time
         
     
     def search(self, name, SEARCH_LOOP_TIME, targets, data_structure):

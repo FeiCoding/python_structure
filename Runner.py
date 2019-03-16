@@ -11,7 +11,6 @@ class Runner:
         self.DATA_SIZE = data_size
         self.DATA_RANGE = data_range
         self.data = random.sample(range(0, data_range), data_size)
-        print(len(self.data))
         self.data_list = []
         self.data_tree = Tree()
         self.data_set = set()
@@ -20,8 +19,8 @@ class Runner:
         self.data_sort_list = SortedList()
         
     def list_search(self, data_list, target):
-        for i in range(len(data_list)):
-                if data_list[i] == target:
+        for num in data_list:
+                if num == target:
                     break
 
     def runner_controller(self, data_structure, name, num, operation):
@@ -31,8 +30,15 @@ class Runner:
             elif operation == "search":
                 self.list_search(data_structure, num)
             elif operation == "delete":
+
                 temp_data_structure = data_structure
-                temp_data_structure.remove(num)
+                try:
+                    temp_data_structure.remove(num)
+                except:
+                    print("The target is " + str(num))
+                    print(len(data_structure))
+                    for n in data_structure:
+                        print("The content is " + str(n))
             else:
                 print("Unknown Operation Name: " + operation)
             
@@ -112,10 +118,12 @@ class Runner:
         return self.data_list, list_form_time, self.data_tree, tree_form_time, self.data_set, set_form_time, self.data_dict, dict_form_time, self.data_linked_list, linked_list_form_time, self.data_sort_list, sort_list_form_time
 
     def search(self, name, loop_time, targets, data_structure):
+        for tt in targets:
+            print(self.data[tt])
         count_time = 0
         for target in targets:
             start_time = timeit.default_timer()
-            self.runner_controller(data_structure, name, target, "search")
+            self.runner_controller(data_structure, name, self.data[target], "search")
             count_time += round((timeit.default_timer() - start_time) * 1000)
                  
         search_time = count_time / loop_time
@@ -125,7 +133,7 @@ class Runner:
         count_time = 0
         for target in targets:
             start_time = timeit.default_timer()
-            self.runner_controller(data_structure, name, target, "delete")
+            self.runner_controller(data_structure, name, self.data[target], "delete")
             count_time += round((timeit.default_timer() - start_time) * 1000)
                  
         delete_time = count_time / loop_time

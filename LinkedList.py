@@ -1,28 +1,24 @@
-
-# coding: utf-8
-
-# In[24]:
-
 class LinkedNode:
-    def __init__(self,data,nextNode=None):
+    def __init__(self, data,nextNode=None):
         self.data = data
         self.nextNode = nextNode
 
     def getData(self):
         return self.data
 
-    def setData(self,val):
+    def setData(self, val):
         self.data = val
 
     def getNextNode(self):
         return self.nextNode
 
-    def setNextNode(self,val):
+    def setNextNode(self, val):
         self.nextNode = val
+
 
 class LinkedList:
 
-    def __init__(self,head = None):
+    def __init__(self, head: object = None) -> object:
         self.head = head
         self.size = 0
 
@@ -50,7 +46,7 @@ class LinkedList:
         return None
     
     def remove(self, data):
-        if self.head == None:
+        if self.head is None:
             return
         if self.head.data == data:
             self.head = self.head.getNextNode()

@@ -1,14 +1,7 @@
-
-# coding: utf-8
-
-# In[2]:
-
 import matplotlib.pyplot as plt
 from IPython.display import HTML, display
 import tabulate
 
-
-# In[1]:
 
 class Plotter:
     def __init__(self):

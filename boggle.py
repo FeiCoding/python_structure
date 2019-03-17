@@ -19,7 +19,7 @@ def dictionary_dict(words):
 def dictionary_trie(words):
     dictionary = Trie()
     for word in words:
-        dictionary.insert(words)
+        dictionary.insert(word)
     return dictionary
 
 
@@ -48,31 +48,34 @@ def read_board():
     return board
 
 
+def is_safe(i, j, length, visited_board):
+    return 0 <= i < length and 0 <= j < length and visited_board[i][j] is False
+
+
 def trie_find(root, string, found_word, board, visited_board, i, j, length):
     if root.leaf is True:
         found_word.add(string)
-    if i >= length or i < 0 or j >= length or j < 0 or visited_board[i][j] is True:
-        return
-    visited_board[i][j] = True
-    for k in range(26):
-        if root.children[k] is not None:
-            ch = chr(k + ord('a'))
-            if board[i][j + 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i, j + 1, length)
-            if board[i][j - 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i, j - 1, length)
-            if board[i + 1][j] == ch:
-                trie_find(root, string, found_word, board, visited_board, i + 1, j, length)
-            if board[i - 1][j] == ch:
-                trie_find(root, string, found_word, board, visited_board, i - 1, j, length)
-            if board[i - 1][j + 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i - 1, j + 1, length)
-            if board[i - 1][j - 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i - 1, j - 1, length)
-            if board[i + 1][j + 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i + 1, j + 1, length)
-            if board[i + 1][j - 1] == ch:
-                trie_find(root, string, found_word, board, visited_board, i + 1, j - 1, length)
+    if is_safe(i, j, length, visited_board):
+        visited_board[i][j] = True
+        for k in range(len(root.children)):
+            if root.children[k] is not None:
+                ch = chr(k + ord('a'))
+                if is_safe(i, j + 1, length, visited_board) and board[i][j + 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i, j + 1, length)
+                if is_safe(i, j - 1, length, visited_board) and board[i][j - 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i, j - 1, length)
+                if is_safe(i + 1, j, length, visited_board) and board[i + 1][j] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i + 1, j, length)
+                if is_safe(i - 1, j, length, visited_board) and board[i - 1][j] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i - 1, j, length)
+                if is_safe(i - 1, j + 1, length, visited_board) and board[i - 1][j + 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i - 1, j + 1, length)
+                if is_safe(i - 1, j - 1, length, visited_board) and board[i - 1][j - 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i - 1, j - 1, length)
+                if is_safe(i + 1, j + 1, length, visited_board) and board[i + 1][j + 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i + 1, j + 1, length)
+                if is_safe(i + 1, j - 1, length, visited_board) and board[i + 1][j - 1] == ch:
+                    trie_find(root, string, found_word, board, visited_board, i + 1, j - 1, length)
     visited_board[i][j] = False
 
 
@@ -117,14 +120,14 @@ def solve(dict_type):
                     if len(word) > 2:
                         find(word, 0, found_word, board, visited_board, i, j, row_len)
             elif dict_type == "trie":
-                pChild = dictionary.root
-                if pChild.children[pChild.charToIndex(board[i][j])] is not None:
+                pChild = dictionary
+                if pChild.root.children[pChild.charToIndex(board[i][j])] is not None:
                     string += board[i][j]
-                    root = pChild.children[pChild.charToIndex(board[i][j])]
+                    root = pChild.root.children[pChild.charToIndex(board[i][j])]
                     trie_find(root, string, found_word, board, visited_board, i, j, row_len)
 
     print("Total number of word found is: ", len(found_word))
-    return timeit.default_timer() - start_time
+    return round(timeit.default_timer() - start_time, 3)
 
 
 def boggle_solver():

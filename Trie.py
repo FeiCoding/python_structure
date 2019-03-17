@@ -24,7 +24,7 @@ class Trie:
         # private helper function
         # Converts key current character into index
         # use only 'a' through 'z' and lower case
-        print(ch)
+
         return ord(ch) - ord('a')
 
     def insert(self, key):
@@ -32,18 +32,19 @@ class Trie:
         # If not present, inserts key into trie
         # If the key is prefix of trie node,
         # just marks leaf node
-        pCrawl = self.root
-        length = len(key)
-        for level in range(length):
-            index = self.charToIndex(key[level])
+        if key.isalpha():
+            pCrawl = self.root
+            length = len(key)
+            for level in range(length):
+                index = self.charToIndex(key[level])
 
-            # if current character is not present
-            if not pCrawl.children[index]:
-                pCrawl.children[index] = self.getNode()
-            pCrawl = pCrawl.children[index]
+                # if current character is not present
+                if not pCrawl.children[index]:
+                    pCrawl.children[index] = self.getNode()
+                pCrawl = pCrawl.children[index]
 
-            # mark last node as leaf
-        pCrawl.leaf = True
+                # mark last node as leaf
+            pCrawl.leaf = True
 
     def search(self, key):
 

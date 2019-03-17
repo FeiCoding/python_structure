@@ -4,8 +4,8 @@ class TrieNode:
     def __init__(self):
         self.children = [None] * 26
 
-        # isEndOfWord is True if node represent the end of the word
-        self.isEndOfWord = False
+        # leaf is True if node represent the end of the word
+        self.leaf = False
 
 
 class Trie:
@@ -19,12 +19,12 @@ class Trie:
         # Returns new trie node (initialized to NULLs)
         return TrieNode()
 
-    def _charToIndex(self, ch):
+    def charToIndex(self, ch):
 
         # private helper function
         # Converts key current character into index
         # use only 'a' through 'z' and lower case
-
+        print(ch)
         return ord(ch) - ord('a')
 
     def insert(self, key):
@@ -35,7 +35,7 @@ class Trie:
         pCrawl = self.root
         length = len(key)
         for level in range(length):
-            index = self._charToIndex(key[level])
+            index = self.charToIndex(key[level])
 
             # if current character is not present
             if not pCrawl.children[index]:
@@ -43,7 +43,7 @@ class Trie:
             pCrawl = pCrawl.children[index]
 
             # mark last node as leaf
-        pCrawl.isEndOfWord = True
+        pCrawl.leaf = True
 
     def search(self, key):
 
@@ -53,9 +53,9 @@ class Trie:
         pCrawl = self.root
         length = len(key)
         for level in range(length):
-            index = self._charToIndex(key[level])
+            index = self.charToIndex(key[level])
             if not pCrawl.children[index]:
                 return False
             pCrawl = pCrawl.children[index]
 
-        return pCrawl != None and pCrawl.isEndOfWord
+        return pCrawl != None and pCrawl.leaf

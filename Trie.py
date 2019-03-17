@@ -32,31 +32,16 @@ class Trie:
         # If not present, inserts key into trie
         # If the key is prefix of trie node,
         # just marks leaf node
-        if key.isalpha():
+        if len(key) > 2 and key.isalpha():
             pCrawl = self.root
             length = len(key)
             for level in range(length):
                 index = self.charToIndex(key[level])
 
                 # if current character is not present
-                if not pCrawl.children[index]:
+                if pCrawl.children[index] is None:
                     pCrawl.children[index] = self.getNode()
                 pCrawl = pCrawl.children[index]
 
-                # mark last node as leaf
+            # mark last node as leaf
             pCrawl.leaf = True
-
-    def search(self, key):
-
-        # Search key in the trie
-        # Returns true if key presents
-        # in trie, else false
-        pCrawl = self.root
-        length = len(key)
-        for level in range(length):
-            index = self.charToIndex(key[level])
-            if not pCrawl.children[index]:
-                return False
-            pCrawl = pCrawl.children[index]
-
-        return pCrawl != None and pCrawl.leaf

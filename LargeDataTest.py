@@ -2,7 +2,7 @@ from Runner import *
 from Plotter import *
 
 NAME = ['List', 'Sorted List', 'Tree', 'Set', 'Dictionary', 'Linked List']
-DATA_SIZE = 10000
+DATA_SIZE = 100000000
 DATA_RANGE = 100000000
 runner = Runner(DATA_SIZE, DATA_RANGE)
 

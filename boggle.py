@@ -2,7 +2,9 @@ from Trie import *
 from collections import defaultdict
 import timeit
 from Plotter import *
+import Board_builder
 
+BOARD_SIZE = 50
 DICT_FILE_NAME = "dict.txt"
 BOARD_FILE_NAME = "board.txt"
 NAME = ["List", "Dict", "Trie"]
@@ -44,12 +46,11 @@ def read_board():
     lines = [line.rstrip('\n') for line in lines]
     for line in lines:
         board.append([x.strip() for x in line.split(',')])
-    print(board)
     return board
 
 
 def is_safe(i, j, length, visited_board):
-    return 0 <= i < length and 0 <= j < length and visited_board[i][j] is False
+    return (0 <= i < length) and (0 <= j < length) and (visited_board[i][j] is False)
 
 
 def trie_find(root, string, found_word, board, visited_board, i, j, length):
@@ -61,22 +62,22 @@ def trie_find(root, string, found_word, board, visited_board, i, j, length):
             if root.children[k] is not None:
                 ch = chr(k + ord('a'))
                 if is_safe(i, j + 1, length, visited_board) and board[i][j + 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i, j + 1, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i, j + 1, length)
                 if is_safe(i, j - 1, length, visited_board) and board[i][j - 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i, j - 1, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i, j - 1, length)
                 if is_safe(i + 1, j, length, visited_board) and board[i + 1][j] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i + 1, j, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i + 1, j, length)
                 if is_safe(i - 1, j, length, visited_board) and board[i - 1][j] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i - 1, j, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i - 1, j, length)
                 if is_safe(i - 1, j + 1, length, visited_board) and board[i - 1][j + 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i - 1, j + 1, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i - 1, j + 1, length)
                 if is_safe(i - 1, j - 1, length, visited_board) and board[i - 1][j - 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i - 1, j - 1, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i - 1, j - 1, length)
                 if is_safe(i + 1, j + 1, length, visited_board) and board[i + 1][j + 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i + 1, j + 1, length)
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i + 1, j + 1, length)
                 if is_safe(i + 1, j - 1, length, visited_board) and board[i + 1][j - 1] == ch:
-                    trie_find(root, string, found_word, board, visited_board, i + 1, j - 1, length)
-    visited_board[i][j] = False
+                    trie_find(root.children[k], string + ch, found_word, board, visited_board, i + 1, j - 1, length)
+        visited_board[i][j] = False
 
 
 def find(word, str_index, found_word, board, visited_board, i, j, length):
@@ -125,24 +126,26 @@ def solve(dict_type):
                     string += board[i][j]
                     root = pChild.root.children[pChild.charToIndex(board[i][j])]
                     trie_find(root, string, found_word, board, visited_board, i, j, row_len)
-
-    print("Total number of word found is: ", len(found_word))
-    return round(timeit.default_timer() - start_time, 3)
+                    string = ""
+    print("Total number of word found in ", dict_type, " dictionary is: ", len(found_word))
+    return round(timeit.default_timer() - start_time, 3), found_word
 
 
 def boggle_solver():
-    time_list = solve("list")
-    time_dict = solve("dict")
-    time_trie = solve("trie")
+    time_list, word_list = solve("list")
+    time_dict, word_dict = solve("dict")
+    time_trie, word_trie = solve("trie")
+    res = []
     return time_list, time_dict, time_trie
 
 
 def __main__():
+    Board_builder.make_board(BOARD_SIZE)
     time_list, time_dict, time_trie = boggle_solver()
-    print("List time is : ", time_list, "\nDictionary time is: ", time_dict)
     time_ = [time_list, time_dict, time_trie]
     plot = Plotter()
-    plot.diagram_plot(time_, NAME, "Boggle Time")
+    plot_name = '{0}X{0} Boggle'.format(BOARD_SIZE)
+    plot.diagram_plot(time_, NAME, plot_name)
 
 
 if __name__ == '__main__':

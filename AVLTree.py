@@ -206,7 +206,7 @@ class AVLTree():
                         node.height = node.max_children_height() + 1
                         if not node.balance () in [-1, 0, 1]:
                             node_to_rebalance = node
-                            break #we need the one that is furthest from the root
+                            break  # we need the one that is furthest from the root
                         node = node.parent     
             else:
                 self.add_as_child(parent_node.leftChild, child_node)
@@ -220,7 +220,7 @@ class AVLTree():
                         node.height = node.max_children_height() + 1
                         if not node.balance () in [-1, 0, 1]:
                             node_to_rebalance = node
-                            break #we need the one that is furthest from the root
+                            break  # we need the one that is furthest from the root
                         node = node.parent       
             else:
                 self.add_as_child(parent_node.rightChild, child_node)
@@ -254,14 +254,14 @@ class AVLTree():
         retlst = []
         while node.leftChild:
             node = node.leftChild
-        while (node):
+        while node:
             retlst += [node.key]
-            if (node.rightChild):
+            if node.rightChild:
                 node = node.rightChild
                 while node.leftChild:
                     node = node.leftChild
             else:
-                while ((node.parent)  and (node == node.parent.rightChild)):
+                while node.parent and (node == node.parent.rightChild):
                     node = node.parent
                 node = node.parent
         return retlst
@@ -296,7 +296,7 @@ class AVLTree():
         retlst += [node.key]
         return retlst  
     
-    def as_list (self, pre_in_post):
+    def as_list(self, pre_in_post):
         if not self.rootNode:
             return []
         if pre_in_post == 0:
@@ -311,7 +311,7 @@ class AVLTree():
     def find(self, key):
         return self.find_in_subtree (self.rootNode, key )
     
-    def find_in_subtree (self,  node, key):
+    def find_in_subtree(self,  node, key):
         if node is None:
             return None  # key not found
         if key < node.key:
@@ -321,7 +321,7 @@ class AVLTree():
         else:  # key is equal to node key
             return node
     
-    def remove (self, key):
+    def remove(self, key):
         # first find
         node = self.find(key)
         
@@ -346,7 +346,7 @@ class AVLTree():
                 assert (node.leftChild) and (node.rightChild)
                 self.swap_with_successor_and_remove (node)
             
-    def remove_leaf (self, node):
+    def remove_leaf(self, node):
         parent = node.parent
         if (parent):
             if parent.leftChild == node:
@@ -364,9 +364,8 @@ class AVLTree():
             if not node.balance() in [-1, 0, 1]:
                 self.rebalance(node)
             node = node.parent
-        
-        
-    def remove_branch (self, node):
+
+    def remove_branch(self, node):
         parent = node.parent
         if (parent):
             if parent.leftChild == node:
@@ -388,7 +387,7 @@ class AVLTree():
                 self.rebalance(node)
             node = node.parent
         
-    def swap_with_successor_and_remove (self, node):
+    def swap_with_successor_and_remove(self, node):
         successor = self.find_smallest(node.rightChild)
         self.swap_nodes (node, successor)
         assert (node.leftChild is None)
@@ -397,7 +396,7 @@ class AVLTree():
         else:
             self.remove_branch (node)
             
-    def swap_nodes (self, node1, node2):
+    def swap_nodes(self, node1, node2):
         assert (node1.height > node2.height)
         parent1 = node1.parent
         leftChild1 = node1.leftChild
@@ -443,17 +442,17 @@ class AVLTree():
            
     # use for debug only and only with small trees            
     def out(self, start_node = None):
-        if start_node == None:
+        if start_node is None:
             start_node = self.rootNode
         space_symbol = "*"
         spaces_count = 80
         out_string = ""
-        initial_spaces_string  = space_symbol * spaces_count + "\n" 
+        initial_spaces_string = space_symbol * spaces_count + "\n"
         if not start_node:
             return "AVLTree is empty"
         else:
             level = [start_node]
-            while (len([i for i in level if (not i is None)])>0):
+            while len([i for i in level if (i is not None)])>0:
                 level_string = initial_spaces_string
                 for i in range(len(level)):
                     j = (i+1)* spaces_count / (len(level)+1)

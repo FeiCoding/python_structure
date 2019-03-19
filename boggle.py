@@ -4,7 +4,7 @@ import timeit
 from Plotter import *
 import Board_builder
 
-BOARD_SIZE = 50
+BOARD_SIZE = 10
 DICT_FILE_NAME = "dict.txt"
 BOARD_FILE_NAME = "board.txt"
 NAME = ["List", "Dict", "Trie"]
@@ -44,8 +44,10 @@ def read_board():
     with open(BOARD_FILE_NAME) as f:
         lines = f.readlines()
     lines = [line.rstrip('\n') for line in lines]
+    print("The boggle board is:")
     for line in lines:
         board.append([x.strip() for x in line.split(',')])
+        print(line)
     return board
 
 
@@ -100,9 +102,8 @@ def find(word, str_index, found_word, board, visited_board, i, j, length):
     visited_board[i][j] = False
 
 
-def solve(dict_type):
+def solve(dict_type, board):
     start_time = timeit.default_timer()
-    board = read_board()
     row_len = len(board)
     col_len = len(board)
     dictionary = read_dictionary(dict_type)
@@ -132,9 +133,10 @@ def solve(dict_type):
 
 
 def boggle_solver():
-    time_list, word_list = solve("list")
-    time_dict, word_dict = solve("dict")
-    time_trie, word_trie = solve("trie")
+    board = read_board()
+    time_list, word_list = solve("list", board)
+    time_dict, word_dict = solve("dict", board)
+    time_trie, word_trie = solve("trie", board)
     res = []
     return time_list, time_dict, time_trie
 

@@ -6,7 +6,7 @@ import tabulate
 class Plotter:
     def __init__(self):
         self.table_plot = [[]]
-        
+
     def diagram_plot(self, time, name, operation_name):
         fig, ax = plt.subplots()
         print(time)

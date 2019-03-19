@@ -16,7 +16,7 @@ class Node():
         return str(self.key) + "(" + str(self.height) + ")"
     
     def is_leaf(self):
-        return (self.height == 0)
+        return self.height == 0
    
     def max_children_height(self):
         if self.leftChild and self.rightChild:
@@ -30,6 +30,7 @@ class Node():
         
     def balance (self):
         return (self.leftChild.height if self.leftChild else -1) - (self.rightChild.height if self.rightChild else -1)
+
 
 class AVLTree():
     def __init__(self, *args):
@@ -148,7 +149,7 @@ class AVLTree():
                 self.recompute_heights (A)
                 self.recompute_heights (B)
                 
-    def sanity_check (self, *args):
+    def sanity_check(self, *args):
         if len(args) == 0:
             node = self.rootNode
         else:
@@ -170,14 +171,14 @@ class AVLTree():
             if not (node.rightChild != node):
                 raise Exception ("Circular reference for node " + str(node) + ": node.rightChild is node!")
             
-            if ( node.leftChild ): 
+            if node.leftChild:
                 if not (node.leftChild.parent == node):
                     raise Exception ("Left child of node " + str(node) + " doesn't know who his father is!")
                 if not (node.leftChild.key <=  node.key):
                     raise Exception ("Key of left child of node " + str(node) + " is greater than key of his parent!")
                 self.sanity_check(node.leftChild)
             
-            if ( node.rightChild ): 
+            if node.rightChild:
                 if not (node.rightChild.parent == node):
                     raise Exception ("Right child of node " + str(node) + " doesn't know who his father is!")
                 if not (node.rightChild.key >=  node.key):
@@ -454,7 +455,7 @@ class AVLTree():
             level = [start_node]
             while (len([i for i in level if (not i is None)])>0):
                 level_string = initial_spaces_string
-                for i in xrange(len(level)):
+                for i in range(len(level)):
                     j = (i+1)* spaces_count / (len(level)+1)
                     level_string = level_string[:j] + (str(level[i]) if level[i] else space_symbol) + level_string[j+1:]
                 level_next = []

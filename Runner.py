@@ -17,7 +17,8 @@ class Runner:
         self.data_dict = {}
         self.data_linked_list = LinkedList()
         self.data_sort_list = SortedList()
-        
+
+    @staticmethod
     def list_search(self, data_list, target):
         for num in data_list:
                 if num == target:

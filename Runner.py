@@ -118,8 +118,6 @@ class Runner:
         return self.data_list, list_form_time, self.data_tree, tree_form_time, self.data_set, set_form_time, self.data_dict, dict_form_time, self.data_linked_list, linked_list_form_time, self.data_sort_list, sort_list_form_time
 
     def search(self, name, loop_time, targets, data_structure):
-        for tt in targets:
-            print(self.data[tt])
         count_time = 0
         for target in targets:
             start_time = timeit.default_timer()

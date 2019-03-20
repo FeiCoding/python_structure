@@ -1,9 +1,16 @@
+
+# coding: utf-8
+
+# In[1]:
+
 from TreeNode import Tree
 import random
 from LinkedList import LinkedList
 import timeit
 from sortedcontainers import SortedList
 
+
+# In[2]:
 
 class Runner:
     
@@ -17,7 +24,7 @@ class Runner:
         self.data_dict = {}
         self.data_linked_list = LinkedList()
         self.data_sort_list = SortedList()
-
+        
     def list_search(self, data_list, target):
         for num in data_list:
                 if num == target:
@@ -105,7 +112,7 @@ class Runner:
         for num in self.data:
             self.runner_controller(data_structure, name, num, "format")
         form_time = timeit.default_timer() - start_time
-        form_time = round(form_time * 1000, 4)
+        form_time = round(form_time * 1000, 3)
         return data_structure, form_time
         
     def format_data(self):
@@ -136,5 +143,4 @@ class Runner:
                  
         delete_time = count_time / loop_time
         return delete_time
-        
 

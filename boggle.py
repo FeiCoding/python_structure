@@ -4,7 +4,7 @@ import timeit
 from Plotter import *
 import Board_builder
 
-BOARD_SIZE = 10
+BOARD_SIZE = 20
 DICT_FILE_NAME = "dict.txt"
 BOARD_FILE_NAME = "board.txt"
 NAME = ["List", "Dict", "Trie"]

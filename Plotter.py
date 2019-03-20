@@ -1,12 +1,19 @@
+
+# coding: utf-8
+
+# In[2]:
+
 import matplotlib.pyplot as plt
 from IPython.display import HTML, display
 import tabulate
 
 
+# In[1]:
+
 class Plotter:
     def __init__(self):
         self.table_plot = [[]]
-
+        
     def diagram_plot(self, time, name, operation_name):
         fig, ax = plt.subplots()
         print(time)
@@ -21,6 +28,7 @@ class Plotter:
         ax.set_title(operation_name + " of Different Data Structure", fontsize=15)
         for a,b in zip(index, time):
             plt.text(a - 0.3, b + 0.0003, str(b))
+        plt.savefig(operation_name+'.png')
         plt.show()
     
     def table_plot(self, time, name, operation_name):
